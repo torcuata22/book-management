@@ -34,7 +34,7 @@ func Connect() *gorm.DB {
 	// return db
 }
 
-// func GetDB() *gorm.DB {
-// 	db := Connect()
-// 	return db
-// }
+func GetDB() *gorm.DB {
+	db := Connect()
+	return db
+}
