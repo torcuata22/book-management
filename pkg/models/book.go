@@ -30,3 +30,29 @@ func (b *Book) CreateBook() *Book { //receive b of type Book and return a type B
 	db.Create(&b)
 	return b
 }
+
+func GetAllBooks() []Book { //use a slice to return a slice
+	var books []Book
+	db.Find(&books)
+	return books
+}
+
+func GetBookById(id int64) (*Book, *gorm.DB) {
+	var getBook Book
+	db := db.Where("ID=>?", id).Find(&getBook)
+	return &getBook, db
+}
+
+func DeleteBook(id int64) Book {
+	var book Book
+	db.Where("ID=?", id).Find(&book)
+	if book.Quantity > 0 {
+		book.Quantity--
+		db.Model(&book).Update("Quantity", book.Quantity)
+	}
+	db.Where("ID=?", id).Delete(&book)
+	return book
+	//return db makes more sense
+}
+
+//update happens when we find the book id and then delete it and then create new record with new values
